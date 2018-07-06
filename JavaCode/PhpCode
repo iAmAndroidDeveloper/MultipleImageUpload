@@ -1,0 +1,65 @@
+<?php
+
+require '../bootstrap/init.php';
+
+$response = array();
+
+	$image = $_FILES["file"];	
+	
+		if($image!="")
+		{
+			for($i=0;$i<1;$i++)
+			{
+				$file_name=$_FILES['file']['name'][$i];
+				$file_size=$_FILES['file']['size'][$i];
+				$file_error=$_FILES['file']['error'][$i];
+				
+												
+				$file_ext=explode('.',$file_name);
+				$file_ext=strtolower(end($file_ext));
+				$allowed=array('jpeg','jpg','png','gif');
+				if(in_array($file_ext,$allowed))
+				{
+					if($file_error===0)
+					{
+						/*if($file_size<=2097152)
+						{*/
+							
+							$file_name_new=uniqid('',true).'.'.$file_ext;
+							$file_name_new = time(). "_".$file_name; 
+														
+							$file_destination='../assests/adhaar_img/'.$file_name_new;
+														
+							if(move_uploaded_file($_FILES['file']['tmp_name'][$i],$file_destination))
+							{		
+									$response['success'] = '1';
+									$response['message'] = 'Image uploaded!';
+							}
+							else
+							{
+								$response['success'] = '0';
+								$response['message'] = 'Image not uploaded!';
+							}
+						/*}
+						else
+						{
+							$response['success'] = '0';
+							$response['message'] = 'Image size to large!';
+						}*/
+					}
+				}
+				else
+				{
+					$response['success'] = '0';
+					$response['message'] = 'Invalid file';
+				}
+			}
+		}
+		else
+		{
+			$response['success'] = '0';
+			$response['message'] = 'Request perameter invalid!';
+		}	
+
+echo json_encode($response);
+?>

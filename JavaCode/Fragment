@@ -133,7 +133,7 @@ public class ImageFragment extends Fragment {
 
         Toast.makeText(getActivity(), "" + requestBody, Toast.LENGTH_SHORT).show();
 
-        Call<ResponseBody> call = apiService.uploadPASSPORT(requestBody, SharedPreferencesMain.getDefaults("userid", getActivity()), edt_passport_number.getText().toString());
+        Call<ResponseBody> call = apiService.uploadImage(requestBody);
         call.enqueue(new Callback<ResponseBody>() {
             @Override
             public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {

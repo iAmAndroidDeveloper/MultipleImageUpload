@@ -1,0 +1,39 @@
+
+
+//API Service
+
+public interface ApiService {
+ @POST("apiName.php")
+ Call<ResponseBody> uploadImage(@Body RequestBody file,
+                                      @Query("user_id") String user_id,
+                                      @Query("number") String number);
+ }
+ 
+ 
+ //Base URL
+ public class ApiUtilities {
+
+    //Live
+   // public static final String baseurl = "BASE URL";
+
+    public static ApiService getApiservice() {
+        return RetrofitClient.getClient(baseurl).create(ApiService.class);
+    }
+}
+
+
+//Intercepter
+public class RetrofitClient {
+
+    public static Retrofit retrofit = null;
+
+    public static Retrofit getClient(String baseurl) {
+        if (retrofit == null) {
+          
+            retrofit = new Retrofit.Builder().baseUrl(baseurl)
+                    .addConverterFactory(GsonConverterFactory.create())
+                    .build();
+        }
+        return retrofit;
+    }
+}
